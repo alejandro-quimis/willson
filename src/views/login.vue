@@ -3,28 +3,28 @@
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
-                    <v-toolbar dark color="primary">
-                        <v-toolbar-title>Login Form</v-toolbar-title>
+                    <v-toolbar dark color="#3e2723">
+                        <v-toolbar-title>Login Noticias</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-form ref="form" v-model="valid">
                             <v-text-field
+                            color="#3e2723"
                                 prepend-icon="person"
-                                name="email"
-                                label="Email"
-                                type="email"
-                                v-model="email"
+                                name="Usuario"
+                                label="Usuario"
+                                type="text"
+                                v-model="usuario"
                                 :rules="emailRules"
                                 required
-                                data-cy="signinEmailField"
                             >
                             </v-text-field>
                             <v-text-field
+                            color="#3e2723"
                                 prepend-icon="lock"
-                                name="password"
-                                label="Password"
+                                name="Contraseña"
+                                label="Contraseña"
                                 type="password"
-                                data-cy="signinPasswordField"
                                 v-model="password"
                                 :rules="passwordRules"
                                 required
@@ -35,46 +35,64 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
-                            color="primary"
                             :disabled="!valid"
                             @click="submit"
-                            data-cy="signinSubmitBtn"
+                            style="background-color:#3e2723!important;color:white"
                             >Login</v-btn
                         >
                     </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
+        <div class="text-center ma-2">
+            <v-snackbar v-model="snackbar" >
+            {{ text }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                color="pink"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+                >
+                Cerrar
+                </v-btn>
+            </template>
+            </v-snackbar>
+        </div>
     </v-container>
 </template>
 
 <script>
+import router from '@/router';
 export default {
     name: 'Signin',
     data() {
         return {
+            snackbar: false,
+            text: `No se encuentra en los registros`,
             valid: false,
-            email: '',
+            usuario: '',
             password: '',
             emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /.+@.+/.test(v) || 'E-mail must be valid'
+                v => !!v || 'Usuario es requerido',
             ],
             passwordRules: [
-                v => !!v || 'Password is required',
-                v =>
-                    v.length >= 6 ||
-                    'Password must be greater than 6 characters'
+                v => !!v || 'Contraseña es requerido',
             ]
         };
     },
     methods: {
         submit() {
             if (this.$refs.form.validate()) {
-                this.$store.dispatch('userLogin', {
-                    email: this.email,
-                    password: this.password
-                });
+                if(this.usuario == "admin" && this.password == "123456"){
+                    localStorage.setItem('usuario',JSON.stringify("admin"));
+                    this.$store.commit('setEstaLogueado',true);
+                    router.push('/');
+                }
+            }else{
+                this.snackbar=true;
+                this.text = "No se encuentra en los registros";
             }
         }
     }

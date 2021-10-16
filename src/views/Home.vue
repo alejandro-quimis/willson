@@ -1,22 +1,25 @@
 <template>
     <span>
-        <home-hero></home-hero>
-        <home-details></home-details>
-        <home-plans></home-plans>
+        <Session />
+        <noticias-disponibles />
+        <noticias-locales></noticias-locales>
+        <!-- <Gnews></Gnews> -->
     </span>
 </template>
 
 <script>
-import HomeHero from '@/components/HomeHero';
-import HomeDetails from '@/components/HomeDetails';
-import HomePlans from '@/components/HomePlans';
+import Session from '@/components/Session';
+import NoticiasDisponibles from '@/components/NoticiasDisponibles';
+import NoticiasLocales from '@/components/NoticiasLocales';
+import Gnews from '@/components/NoticiasGnews';
 
 export default {
     name: 'home',
     components: {
-        HomeHero,
-        HomeDetails,
-        HomePlans
+        Session,
+        NoticiasLocales,
+        NoticiasDisponibles,
+        Gnews
     }
 };
 </script>

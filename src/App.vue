@@ -1,6 +1,6 @@
 <template>
     <v-app id="app">
-        <app-navigation></app-navigation>
+        <Navegacion/>
 
         <v-content transition="slide-x-transition">
             <router-view></router-view>
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import AppNavigation from '@/components/AppNavigation';
+import Navegacion from '@/components/Navegacion';
 
 export default {
-    name: 'App',
+    name: 'blog',
     components: {
-        AppNavigation
+        Navegacion
     }
 };
 </script>

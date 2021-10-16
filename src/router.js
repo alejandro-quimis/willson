@@ -15,9 +15,17 @@ const router = new Router({
             component: Home
         },
         {
-            path: '/about',
-            name: 'about',
-            component: () => import('./views/About.vue'),
+            path: '/mantenimiento/',
+            name: 'nuevo mantenimiento',
+            component: () => import('./views/Mantenimiento.vue'),
+            meta: {
+                authRequired: true
+            }
+        },
+        {
+            path: '/mantenimiento/:id(\\d+)',
+            name: 'mantenimiento',
+            component: () => import('./views/Mantenimiento.vue'),
             meta: {
                 authRequired: true
             }
@@ -25,26 +33,31 @@ const router = new Router({
         {
             path: '/menu',
             name: 'menu',
-            component: () => import('./views/Menu.vue')
+            component: () => import('./views/disponibles/Menu.vue')
         },
         {
-            path: '/sign-in',
-            name: 'signin',
-            component: () => import('./views/Signin.vue')
+            path: '/locales',
+            name: 'Noticias Locales',
+            component: () => import('./views/locales/Menu.vue')
         },
         {
-            path: '/join',
-            name: 'join',
-            component: () => import('./views/Join.vue')
-        }
+            path: '/gnews',
+            name: 'GNews',
+            component: () => import('./views/GNews/Menu.vue')
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('./views/login.vue')
+        },
     ]
 });
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.authRequired)) {
-        if (!store.state.isAuthenticated) {
+        if (!store.getters.estaLogueado) {
             next({
-                path: '/sign-in'
+                path: '/login'
             });
         } else {
             next();
